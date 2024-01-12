@@ -6,7 +6,7 @@ import (
 )
 
 func hash() {
-	password := "linkedin"
+	password := "test"
 	sum := sha1.Sum([]byte(password))
 	fmt.Printf("%x", sum)
 }
