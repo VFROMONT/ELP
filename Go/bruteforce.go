@@ -48,7 +48,7 @@ func bruteforce(passwordHash string, dictionaryPath string) bool {
 }
 
 func main() {
-	passwordHash := "aea9d8490e66f66e51c19f1e4e0e1b3769cf74a6c6ed8379fe8b62cb4c89ba04"
+	passwordHash := "5e8bcf13ba108831a2fb9d5aaa61cb8de60e242e01a1e5cd005c9f206245b5ce"
 	dictionaryPath := "hashmob.net_2024-01-07.medium.found"
 
 	if bruteforce(passwordHash, dictionaryPath) {
