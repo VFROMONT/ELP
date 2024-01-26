@@ -48,8 +48,8 @@ func bruteforce(passwordHash string, dictionaryPath string) bool {
 }
 
 func main() {
-	passwordHash := "5e8bcf13ba108831a2fb9d5aaa61cb8de60e242e01a1e5cd005c9f206245b5ce"
-	dictionaryPath := "hashmob.net_2024-01-07.medium.found"
+	passwordHash := "03834484e9968384e2f31ff30deade13bf7a52b16535bbb333b548351a73a263"
+	dictionaryPath := "hashmob.net_2024-01-22.larger.found"
 
 	if bruteforce(passwordHash, dictionaryPath) {
 		fmt.Println("Bruteforce réussi!")
