@@ -1,2 +1,0 @@
-*.found filter=lfs diff=lfs merge=lfs -text
-*.left filter=lfs diff=lfs merge=lfs -text

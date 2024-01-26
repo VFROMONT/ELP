@@ -112,7 +112,7 @@ func bruteforceAll(passwordHashesPath string, dictionaryPath string, outputPath 
 }
 
 func main() {
-	passwordHashesPath := "hash_sum2.left"
+	passwordHashesPath := "hash_sums.found"
 	dictionaryPath := "hashmob.net_2024-01-07.medium.found"
 	outputPath := "bruteforce_output.txt"
 	numWorkers := 8 // You can adjust the number of workers based on your requirements
