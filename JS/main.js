@@ -98,7 +98,6 @@ function addWord(player, playerBoard){
       player.hand.splice(index, 1);
     }
   }
-  //draw1Letter(player);
 }
 
 // fonction qui check si la transformation du mot est valide
@@ -155,8 +154,6 @@ function transformWord(player, playerBoard){
         }
     }
 }
-
-  //draw1Letter(player);
 }
 
 //fonction pour échanger 3 lettres
@@ -264,11 +261,13 @@ async function startGame(){
       }
       turn_loop:
       do {
+        //si c'est le premier tour du joueur
         if(player.first_turn){
           console.clear();
           console.log("\x1b[" + player.color + "m" + player.name + "\x1b[0m c'est votre tour !\n");
           fs.appendFileSync(logFileName, "C'est le tour de " + player.name + "\n");
           draw6Letters(player);
+          //si l'on n'est pas au démarrage du jeu
           if(!game_start && previousPlayer.board.length >= 1){
             printBoard(previousPlayer);
             console.log("\x1b[" + previousPlayer.color + "mVoici la main de "+ previousPlayer.name + " :" + previousPlayer.hand + "\x1b[0m\n");
@@ -300,6 +299,7 @@ async function startGame(){
           player.first_turn = false;
         }
         else {
+          //si c'est le début du tour du joueur
           if(player.begin_turn){
             console.clear();
             console.log("\x1b[" + player.color + "m" + player.name + "\x1b[0m c'est votre tour !\n");
