@@ -167,6 +167,7 @@ function exchangeLetters(player){
   } while (checkLettersExchange(exchange, player.hand) === false);
   //supprimer les lettres saisies de la main du joueur
   for (const char of exchange) {
+    letterValues[char]++;
     const index = player.hand.indexOf(char);
     if (index !== -1) {
       player.hand.splice(index, 1);
@@ -299,9 +300,17 @@ async function startGame(){
               console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
             }
             else if (action_choice == 2) {
-              fs.appendFileSync(logFileName, player.name + " a échangé 3 lettres\n");
-              exchangeLetters(player);
-              console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
+              if (player.hand.length < 3) {
+                console.log("\x1b[31mVous n'avez pas assez de lettres à échanger... tirage d'une lettre\x1b[0m\n");
+                fs.appendFileSync(logFileName, player.name + " a pioché une lettre\n");
+                draw1Letter(player);
+                console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
+              }
+              else {
+                fs.appendFileSync(logFileName, player.name + " a échangé 3 lettres\n");
+                exchangeLetters(player);
+                console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
+              }
             }
             player.begin_turn = false;
           }

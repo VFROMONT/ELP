@@ -1,24 +1,17 @@
 Tour : 1
-C'est le tour de vincent
-vincent a passe son tour
+C'est le tour de xavier
+xavier a ajouté un mot
+xavier a transformé un mot
+xavier a ajouté un mot
+xavier passe son tour
 Tour : 2
-C'est le tour de emile
-emile a passe son tour
-Tour : 3
 C'est le tour de vincent
-vincent a pioché une lettre
-vincent passe son tour
-Tour : 4
-C'est le tour de emile
-emile a pioché une lettre
-emile a ajouté un mot
-emile passe son tour
-Tour : 5
-C'est le tour de vincent
-vincent a fait un coup de Jarnac
-vincent a pioché une lettre
 vincent a ajouté un mot
 vincent passe son tour
-Tour : 6
-C'est le tour de emile
-emile a pioché une lettre
+Tour : 3
+C'est le tour de xavier
+xavier a pioché une lettre
+xavier passe son tour
+Tour : 4
+C'est le tour de vincent
+vincent a pioché une lettre
