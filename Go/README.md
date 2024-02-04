@@ -5,7 +5,7 @@ Ce programme en GoLang permet le bruteforce de mots de passes hachés avec l'alg
 
 **Instructions d'utilisation :**
 1. Clonez le projet avec `git clone https://github.com/VFROMONT/ELP.git`
-2. Télécharger le fichier de dictionnaire `Medium Combined` [disponible sur ce lien](https://hashmob.net/resources/hashmob) ou tout autre fichier de dictionnaire
+2. Téléchargez le fichier de dictionnaire `Medium Combined` [disponible sur ce lien](https://hashmob.net/resources/hashmob) ou tout autre fichier de dictionnaire
 3. Dézippez-le puis placer le dans le dossier `Go`. Modifiez le `dictionaryPath` dans le main du server pour qu'il corresponde au nom du fichier dictionnaire.
 4. Ouvrez un terminal et placez-vous dans le dossier `Go`.
 5. Démarrez le serveur : `go run bruteforce_server.go`
