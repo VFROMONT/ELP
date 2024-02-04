@@ -214,6 +214,31 @@ function scoreWord(word){
   return word.length**2;
 }
 
+// fonction pour afficher le joueur gagnant
+function calculateTotalScore(board){
+  return board.reduce((total, word) => total + scoreWord(word), 0);
+}
+
+function displayWinner(player1, player2){
+  const player1TotalScore = calculateTotalScore(player1.board);
+  const player2TotalScore = calculateTotalScore(player2.board);
+  console.log("Score de \x1b[" + player1.color + "m" + player1.name + " : " + player1TotalScore + "\x1b[0m");
+  console.log("Score de \x1b[" + player2.color + "m" + player2.name + " : " + player2TotalScore + "\x1b[0m");
+  fs.appendFileSync(logFileName, "Score de " + player1.name + " : " + player1TotalScore + "\n");
+  fs.appendFileSync(logFileName, "Score de " + player2.name + " : " + player2TotalScore + "\n");
+
+  if (player1TotalScore > player2TotalScore) {
+    console.log("\x1b[" + player1.color + "m" + player1.name + "\x1b[0m a gagné la partie !");
+    fs.appendFileSync(logFileName, player1.name + " a gagné la partie !\n");
+  } else if (player2TotalScore > player1TotalScore) {
+    console.log("\x1b[" + player2.color + "m" + player2.name + "\x1b[0m a gagné la partie !");
+    fs.appendFileSync(logFileName, player2.name + " a gagné la partie !\n");
+  } else {
+    console.log("La partie est nulle, il n'y a pas de gagnant.");
+    fs.appendFileSync(logFileName, "La partie est nulle, il n'y a pas de gagnant.");
+  }
+}
+
 async function startGame(){
   name_first_player = readlineSync.question('Entrez votre nom de joueur : ');
   name_second_player = readlineSync.question('Entrez votre nom de joueur : ');
@@ -346,6 +371,7 @@ async function startGame(){
   } while (player1.board.length < 8 && player2.board.length < 8);
   console.log("\nPartie terminée !");
   fs.appendFileSync(logFileName, "Partie terminée!\n");
+  displayWinner(player1, player2);
 }
 
 startGame();

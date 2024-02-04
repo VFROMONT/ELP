@@ -1,17 +1,78 @@
 Tour : 1
-C'est le tour de xavier
-xavier a ajouté un mot
-xavier a transformé un mot
-xavier a ajouté un mot
-xavier passe son tour
+C'est le tour de julien
+julien a ajouté un mot
+julien a ajouté un mot
+julien a transformé un mot
+julien passe son tour
 Tour : 2
 C'est le tour de vincent
 vincent a ajouté un mot
 vincent passe son tour
 Tour : 3
-C'est le tour de xavier
-xavier a pioché une lettre
-xavier passe son tour
+C'est le tour de julien
+julien a fait un coup de Jarnac
+julien a pioché une lettre
+julien passe son tour
 Tour : 4
 C'est le tour de vincent
 vincent a pioché une lettre
+vincent a ajouté un mot
+vincent passe son tour
+Tour : 5
+C'est le tour de julien
+julien a pioché une lettre
+julien a ajouté un mot
+julien passe son tour
+Tour : 6
+C'est le tour de vincent
+vincent a pioché une lettre
+vincent passe son tour
+Tour : 7
+C'est le tour de julien
+julien a fait un coup de Jarnac
+julien a pioché une lettre
+julien a ajouté un mot
+julien passe son tour
+Tour : 8
+C'est le tour de vincent
+vincent a fait un coup de Jarnac
+vincent a pioché une lettre
+vincent passe son tour
+Tour : 9
+C'est le tour de julien
+julien a pioché une lettre
+julien passe son tour
+Tour : 10
+C'est le tour de vincent
+vincent a pioché une lettre
+vincent passe son tour
+Tour : 11
+C'est le tour de julien
+julien a fait un coup de Jarnac
+julien a pioché une lettre
+julien passe son tour
+Tour : 12
+C'est le tour de vincent
+vincent a pioché une lettre
+vincent a ajouté un mot
+vincent a transformé un mot
+vincent passe son tour
+Tour : 13
+C'est le tour de julien
+julien a pioché une lettre
+julien a ajouté un mot
+julien passe son tour
+Tour : 14
+C'est le tour de vincent
+vincent a pioché une lettre
+vincent passe son tour
+Tour : 15
+C'est le tour de julien
+julien a fait un coup de Jarnac
+julien a pioché une lettre
+julien passe son tour
+Tour : 16
+Partie terminée!
+Score de julien : 102
+Score de vincent : 25
+julien a gagné la partie !
