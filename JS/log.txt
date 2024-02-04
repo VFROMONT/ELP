@@ -1,13 +1,9 @@
 Tour : 1
 C'est le tour de vincent
-vincent a ajouté un mot
-vincent a ajouté un mot
-vincent passe son tour
+vincent a passe son tour
 Tour : 2
 C'est le tour de emile
-emile a fait un coup de Jarnac
-emile a ajouté un mot
-emile passe son tour
+emile a passe son tour
 Tour : 3
 C'est le tour de vincent
 vincent a pioché une lettre
@@ -17,4 +13,12 @@ C'est le tour de emile
 emile a pioché une lettre
 emile a ajouté un mot
 emile passe son tour
-Partie terminée!
+Tour : 5
+C'est le tour de vincent
+vincent a fait un coup de Jarnac
+vincent a pioché une lettre
+vincent a ajouté un mot
+vincent passe son tour
+Tour : 6
+C'est le tour de emile
+emile a pioché une lettre

@@ -243,7 +243,7 @@ async function startGame(){
           console.log("\x1b[" + player.color + "m" + player.name + "\x1b[0m c'est votre tour !\n");
           fs.appendFileSync(logFileName, "C'est le tour de " + player.name + "\n");
           draw6Letters(player);
-          if(!game_start) {
+          if(!game_start && previousPlayer.board.length >= 1){
             printBoard(previousPlayer);
             console.log("\x1b[" + previousPlayer.color + "mVoici la main de "+ previousPlayer.name + " :" + previousPlayer.hand + "\x1b[0m\n");
             printBoard(player);
@@ -283,11 +283,13 @@ async function startGame(){
             console.log("\x1b[" + previousPlayer.color + "mVoici la main de "+ previousPlayer.name + " :" + previousPlayer.hand + "\x1b[0m\n");
             printBoard(player);
             console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
-            action_choice = readlineSync.keyIn("Voulez-vous faire un coup de Jarnac ?\n1. Oui | 2. Non\n", {hideEchoBack: true, mask: '', limit: '$<1-3>'});
-            action_choice = parseInt(action_choice);
-            if(action_choice == 1){
-              fs.appendFileSync(logFileName, player.name + " a fait un coup de Jarnac\n");
-              jarnac(previousPlayer, player);
+            if(previousPlayer.board.length >= 1){
+              action_choice = readlineSync.keyIn("Voulez-vous faire un coup de Jarnac ?\n1. Oui | 2. Non\n", {hideEchoBack: true, mask: '', limit: '$<1-3>'});
+              action_choice = parseInt(action_choice);
+              if(action_choice == 1){
+                fs.appendFileSync(logFileName, player.name + " a fait un coup de Jarnac\n");
+                jarnac(previousPlayer, player);
+              }
             }
             action_choice = readlineSync.keyIn("Choisissez une action :\n1. Tirer une lettre | 2. Echanger 3 lettres\n", {hideEchoBack: true, mask: '', limit: '$<1-2>'});
             action_choice = parseInt(action_choice);
