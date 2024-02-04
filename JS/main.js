@@ -1,4 +1,9 @@
 const readlineSync = require('readline-sync');
+const fs = require('fs');
+const logFileName = 'log.txt';
+fs.writeFileSync(logFileName, '');
+let turnCounter = 0;
+
 
 // Définir la liste des lettres et leurs valeurs
 let letterValues = {
@@ -221,7 +226,9 @@ async function startGame(){
   do {
     players_loop:
     for (const player of players) {
-      if(player1.board.length >= 3 || player2.board.length >= 3) {
+      turnCounter++;
+      fs.appendFileSync(logFileName, "Tour : " + turnCounter + "\n");
+      if(player1.board.length >= 8 || player2.board.length >= 8) {
         break players_loop;
       }
       let action_choice=1;
@@ -229,10 +236,12 @@ async function startGame(){
       if(!player.first_turn){
         player.begin_turn = true;
       }
+      turn_loop:
       do {
         if(player.first_turn){
           console.clear();
           console.log("\x1b[" + player.color + "m" + player.name + "\x1b[0m c'est votre tour !\n");
+          fs.appendFileSync(logFileName, "C'est le tour de " + player.name + "\n");
           draw6Letters(player);
           if(!game_start) {
             printBoard(previousPlayer);
@@ -242,21 +251,33 @@ async function startGame(){
             action_choice = readlineSync.keyIn("Voulez-vous faire un coup de Jarnac ?\n1. Oui | 2. Non\n", {hideEchoBack: true, mask: '', limit: '$<1-3>'});
             action_choice = parseInt(action_choice);
             if(action_choice == 1){
+              fs.appendFileSync(logFileName, player.name + " a fait un coup de Jarnac\n");
               jarnac(previousPlayer, player);
             }
           }
           game_start = false;
           console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
-          addWord(player, player.board);
-          draw1Letter(player);
-          printBoard(player);
-          console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
+          action_choice = readlineSync.keyIn("Choisissez une action :\n1. Ajouter un mot | 2. Passer\n", {hideEchoBack: true, mask: '', limit: '$<1-2>'});
+          action_choice = parseInt(action_choice);
+          if(action_choice == 1){
+            addWord(player, player.board);
+            fs.appendFileSync(logFileName, player.name + " a ajouté un mot\n");
+            draw1Letter(player);
+            printBoard(player);
+            console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
+          }
+          else{
+            fs.appendFileSync(logFileName, player.name + " a passe son tour\n");
+            player.first_turn = false;
+            break turn_loop;
+          }
           player.first_turn = false;
         }
         else {
           if(player.begin_turn){
             console.clear();
             console.log("\x1b[" + player.color + "m" + player.name + "\x1b[0m c'est votre tour !\n");
+            fs.appendFileSync(logFileName, "C'est le tour de " + player.name + "\n");
             //print le board de l'autre joueur
             printBoard(previousPlayer);
             console.log("\x1b[" + previousPlayer.color + "mVoici la main de "+ previousPlayer.name + " :" + previousPlayer.hand + "\x1b[0m\n");
@@ -265,15 +286,18 @@ async function startGame(){
             action_choice = readlineSync.keyIn("Voulez-vous faire un coup de Jarnac ?\n1. Oui | 2. Non\n", {hideEchoBack: true, mask: '', limit: '$<1-3>'});
             action_choice = parseInt(action_choice);
             if(action_choice == 1){
+              fs.appendFileSync(logFileName, player.name + " a fait un coup de Jarnac\n");
               jarnac(previousPlayer, player);
             }
             action_choice = readlineSync.keyIn("Choisissez une action :\n1. Tirer une lettre | 2. Echanger 3 lettres\n", {hideEchoBack: true, mask: '', limit: '$<1-2>'});
             action_choice = parseInt(action_choice);
             if (action_choice == 1) {
+              fs.appendFileSync(logFileName, player.name + " a pioché une lettre\n");
               draw1Letter(player);
               console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
             }
             else if (action_choice == 2) {
+              fs.appendFileSync(logFileName, player.name + " a échangé 3 lettres\n");
               exchangeLetters(player);
               console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
             }
@@ -289,6 +313,7 @@ async function startGame(){
             else {
               console.log("Ajouter un mot");
               addWord(player, player.board);
+              fs.appendFileSync(logFileName, player.name + " a ajouté un mot\n");
               draw1Letter(player);
               printBoard(player);
             }
@@ -296,17 +321,20 @@ async function startGame(){
           } else if (action_choice == 2) {
             console.log("Transformer un mot");
             transformWord(player, player.board);
+            fs.appendFileSync(logFileName, player.name + " a transformé un mot\n");
             draw1Letter(player);
             printBoard(player);
             console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
           } else if (action_choice == 3) {
+            fs.appendFileSync(logFileName, player.name + " passe son tour\n");
             console.log("\x1b[" + player.color + "m"+ player.name + "\x1b[0m passe son tour !");
           }
         }
       } while ((action_choice == 1 && !player.hand.length < 3) || action_choice == 2 && action_choice!= 3);
     }
-  } while (player1.board.length < 3 && player2.board.length < 3);
+  } while (player1.board.length < 8 && player2.board.length < 8);
   console.log("\nPartie terminée !");
+  fs.appendFileSync(logFileName, "Partie terminée!\n");
 }
 
 startGame();

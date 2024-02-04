@@ -1,0 +1,13 @@
+Tour : 1
+C'est le tour de emile
+emile a passe son tour
+Tour : 2
+C'est le tour de vincent
+vincent a passe son tour
+Tour : 3
+C'est le tour de emile
+emile a pioché une lettre
+emile passe son tour
+Tour : 4
+C'est le tour de vincent
+vincent a pioché une lettre
