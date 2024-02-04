@@ -7,6 +7,8 @@ let letterValues = {
   'S': 7, 'T': 9, 'U': 8, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 2
 };
 
+let game_start = true;
+
 // Définition de la classe Player
 function Player(name){
   this.name = name;
@@ -77,21 +79,21 @@ function printBoard(player){
 }
 
 // fonction qui ajoute un mot au plateau de jeu du joueur
-function addWord(player){
+function addWord(player, playerBoard){
   let userInput;
   do{
     userInput = readlineSync.question('Entrez un mot : ');
     userInput =userInput.toUpperCase();
   } while (checkWord(userInput, player.hand) === false);
   console.log('Vous avez saisi : ' + userInput + "\n");
-  player.board.push(userInput);
+  playerBoard.push(userInput);
   for (const char of userInput) {
     const index = player.hand.indexOf(char);
     if (index !== -1) {
       player.hand.splice(index, 1);
     }
   }
-  draw1Letter(player);
+  //draw1Letter(player);
 }
 
 // fonction qui check si la transformation du mot est valide
@@ -117,7 +119,7 @@ function checkWordTransform(oldWord, newWord, playerHand){
 }
 
 // fonction qui transforme un mot du plateau de jeu du joueur
-function transformWord(player){
+function transformWord(player, playerBoard){
   let index;
   do {
     index = readlineSync.question('Entrez la ligne du mot a transformer : ');
@@ -133,7 +135,8 @@ function transformWord(player){
     newWord = newWord.toUpperCase();
   } while (checkWordTransform(oldWord, newWord, player.hand) === false);
   console.log('Vous avez saisi : ' + newWord + "\n");
-  player.board[index] = newWord;
+  player.board.splice(index, 1)
+  playerBoard.push(newWord);
   for (const char of newWord) {
     const countInNewWord = newWord.split(char).length - 1;
     const countInOldWord = oldWord.split(char).length - 1;
@@ -148,7 +151,7 @@ function transformWord(player){
     }
 }
 
-  draw1Letter(player);
+  //draw1Letter(player);
 }
 
 //fonction pour échanger 3 lettres
@@ -171,28 +174,34 @@ function exchangeLetters(player){
 
 //fonction jarnac
 function jarnac(previous_player, current_player) {
-  console.log("\x1b[" + current_player.color + "m" + current_player.name + " fait un coup de jarnac!");
-  /*
-  action_choice = readlineSync.keyIn("Choisissez une action :\n1. Ajouter un mot | 2.Transformer un mot | 3. Terminer Jarnac\n", {hideEchoBack: true, mask: '', limit: '$<1-3>'});
-  action_choice = parseInt(action_choice);
-  if (action_choice == 1) {
-    if(previous_player.hand.length < 3){
-      console.log("\x1b[31m" + previous_player.name + "n'a pas assez de lettres dans sa main\x1b[0m");
-    }
-    else {
-      console.log("Ajouter un mot");
-      addWord(player);
+  console.log("\x1b[31m" + current_player.name + " fait un coup de jarnac!\x1b[0m");
+  do {
+    action_choice = readlineSync.keyIn("Choisissez une action :\n1. Ajouter un mot | 2.Transformer un mot | 3. Terminer Jarnac\n", {hideEchoBack: true, mask: '', limit: '$<1-3>'});
+    action_choice = parseInt(action_choice);
+    if (action_choice == 1) {
+      if(previous_player.hand.length < 3){
+        console.log("\x1b[31m" + previous_player.name + "n'a pas assez de lettres dans sa main\x1b[0m");
+      }
+      else {
+        console.log("Ajouter un mot");
+        addWord(previous_player, current_player.board);
+        printBoard(previous_player)
+        console.log("\x1b[" + previous_player.color + "mVoici la main de "+ previous_player.name + " : " + previous_player.hand + "\x1b[0m\n");
+      }
+    } else if (action_choice == 2) {
+      console.log("Transformer un mot");
+      transformWord(previous_player, current_player.board);
+      printBoard(previous_player)
+      console.log("\x1b[" + previous_player.color + "mVoici la main de "+ previous_player.name + " : " + previous_player.hand + "\x1b[0m\n");
+    } else if (action_choice == 3) {
+      console.log("\x1b[31m"+ current_player.name + " termine son coup de jarnac!\x1b[0m\n");
+      printBoard(previous_player)
+      console.log("\x1b[" + previous_player.color + "mVoici la main de "+ previous_player.name + " : " + previous_player.hand + "\x1b[0m\n");
       printBoard(current_player);
+      console.log("\x1b[" + current_player.color + "mVoici votre main : " + current_player.hand + "\x1b[0m\n");
+      
     }
-    console.log("Voici votre main : \x1b[" + player.color + "m" + player.hand + "\x1b[0m\n");
-  } else if (action_choice == 2) {
-    console.log("Transformer un mot");
-    transformWord(player);
-    printBoard(player);
-    console.log("Voici votre main : \x1b[" + player.color + "m" + player.hand + "\x1b[0m\n");
-  } else if (action_choice == 3) {
-    console.log("\x1b[" + player.color + "m"+ player.name + "\x1b[0m termine son coup de jarnac!");
-  }*/
+  } while ((action_choice == 1 && !previous_player.hand.length < 3) || action_choice == 2 && action_choice!= 3);
 }
 
 function scoreWord(word){
@@ -225,10 +234,23 @@ async function startGame(){
           console.clear();
           console.log("\x1b[" + player.color + "m" + player.name + "\x1b[0m c'est votre tour !\n");
           draw6Letters(player);
-          console.log("Voici votre main : \x1b[" + player.color + "m" + player.hand + "\x1b[0m\n");
-          addWord(player);
+          if(!game_start) {
+            printBoard(previousPlayer);
+            console.log("\x1b[" + previousPlayer.color + "mVoici la main de "+ previousPlayer.name + " :" + previousPlayer.hand + "\x1b[0m\n");
+            printBoard(player);
+            console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
+            action_choice = readlineSync.keyIn("Voulez-vous faire un coup de Jarnac ?\n1. Oui | 2. Non\n", {hideEchoBack: true, mask: '', limit: '$<1-3>'});
+            action_choice = parseInt(action_choice);
+            if(action_choice == 1){
+              jarnac(previousPlayer, player);
+            }
+          }
+          game_start = false;
+          console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
+          addWord(player, player.board);
+          draw1Letter(player);
           printBoard(player);
-          console.log("Voici votre main : \x1b[" + player.color + "m" + player.hand + "\x1b[0m\n");
+          console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
           player.first_turn = false;
         }
         else {
@@ -237,21 +259,24 @@ async function startGame(){
             console.log("\x1b[" + player.color + "m" + player.name + "\x1b[0m c'est votre tour !\n");
             //print le board de l'autre joueur
             printBoard(previousPlayer);
-            console.log("Voici la main de "+ previousPlayer.name + " : \x1b[" + previousPlayer.color + "m" + previousPlayer.hand + "\x1b[0m\n");
+            console.log("\x1b[" + previousPlayer.color + "mVoici la main de "+ previousPlayer.name + " :" + previousPlayer.hand + "\x1b[0m\n");
             printBoard(player);
-            console.log("Voici votre main : \x1b[" + player.color + "m" + player.hand + "\x1b[0m\n");
-            action_choice = readlineSync.keyIn("Choisissez une action :\n1. Jarnac! | 2. Tirer une lettre | 3. Echanger 3 lettres\n", {hideEchoBack: true, mask: '', limit: '$<1-2>'});
+            console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
+            action_choice = readlineSync.keyIn("Voulez-vous faire un coup de Jarnac ?\n1. Oui | 2. Non\n", {hideEchoBack: true, mask: '', limit: '$<1-3>'});
             action_choice = parseInt(action_choice);
             if(action_choice == 1){
               jarnac(previousPlayer, player);
             }
-            else if (action_choice == 2) {
+            action_choice = readlineSync.keyIn("Choisissez une action :\n1. Tirer une lettre | 2. Echanger 3 lettres\n", {hideEchoBack: true, mask: '', limit: '$<1-2>'});
+            action_choice = parseInt(action_choice);
+            if (action_choice == 1) {
               draw1Letter(player);
+              console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
             }
-            else if (action_choice == 3) {
+            else if (action_choice == 2) {
               exchangeLetters(player);
+              console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
             }
-            console.log("Voici votre main : \x1b[" + player.color + "m" + player.hand + "\x1b[0m\n");
             player.begin_turn = false;
           }
           
@@ -259,19 +284,21 @@ async function startGame(){
           action_choice = parseInt(action_choice);
           if (action_choice == 1) {
             if(player.hand.length < 3){
-              console.log("\x1b[31mVous n'avez pas assez de lettres dans votre main\x1b[0m");
+              console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
             }
             else {
               console.log("Ajouter un mot");
-              addWord(player);
+              addWord(player, player.board);
+              draw1Letter(player);
               printBoard(player);
             }
-            console.log("Voici votre main : \x1b[" + player.color + "m" + player.hand + "\x1b[0m\n");
+            console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
           } else if (action_choice == 2) {
             console.log("Transformer un mot");
-            transformWord(player);
+            transformWord(player, player.board);
+            draw1Letter(player);
             printBoard(player);
-            console.log("Voici votre main : \x1b[" + player.color + "m" + player.hand + "\x1b[0m\n");
+            console.log("\x1b[" + player.color + "mVoici votre main : " + player.hand + "\x1b[0m\n");
           } else if (action_choice == 3) {
             console.log("\x1b[" + player.color + "m"+ player.name + "\x1b[0m passe son tour !");
           }
