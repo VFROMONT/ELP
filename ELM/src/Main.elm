@@ -8,7 +8,6 @@ import Html.Attributes exposing (..)
 import Http
 import Random
 import Json.Decode as Decode exposing  (..)
-import Browser.Navigation exposing (load)
 
 main =
   Browser.element
