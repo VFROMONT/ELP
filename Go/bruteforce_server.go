@@ -54,13 +54,9 @@ func bruteforceWorker(passwordHashes []string, dictionaryPath string, results ch
 
 	for _, passwordHash := range passwordHashes {
 		if password, found := bruteforce(passwordHash, dictionaryPath); found {
-			mu.Lock()
 			results <- fmt.Sprintf("%s : Mot de passe trouvé : %s\n", passwordHash, password)
-			mu.Unlock()
 		} else {
-			mu.Lock()
 			results <- fmt.Sprintf("%s : Échec du bruteforce\n", passwordHash)
-			mu.Unlock()
 		}
 	}
 }
